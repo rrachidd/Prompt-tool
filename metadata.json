@@ -1,0 +1,7 @@
+{
+  "name": "Copy of PromptTools",
+  "description": "An official website for PromptTools, providing a comprehensive platform with AI-powered tools for text, images, and video to enhance creativity and productivity.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
