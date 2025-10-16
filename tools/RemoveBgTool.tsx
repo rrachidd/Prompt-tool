@@ -108,22 +108,24 @@ const RemoveBgTool: React.FC = () => {
             setError('يرجى اختيار صورة أولاً');
             return;
         }
-
+    
         setIsLoading(true);
         setError('');
         setLoadingText('جاري إزالة الخلفية...');
-
+    
         try {
             const imageBase64 = await fileToBase64(originalFile);
             const result = await removeImageBackground(originalFile.type, imageBase64);
             
+            const imageUrl = `data:${result.mimeType};base64,${result.base64}`;
+    
             const img = new Image();
             img.onload = () => {
                 setProcessedImage(img);
                 setIsBgTransparent(true);
             };
-            img.src = `data:${result.mimeType};base64,${result.base64}`;
-
+            img.src = imageUrl;
+    
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred.';
             setError(`حدث خطأ: ${errorMessage}`);

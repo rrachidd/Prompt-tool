@@ -30,6 +30,16 @@ import MergePhotosTool from './tools/MergePhotosTool';
 import WheelOfFortuneTool from './tools/WheelOfFortuneTool';
 import WorldClockTool from './tools/WorldClockTool';
 import VideoGeneratorTool from './tools/VideoGeneratorTool';
+import ColorExtractorTool from './tools/ColorExtractorTool';
+import ColorConverterTool from './tools/ColorConverterTool';
+import PdfToImagesTool from './tools/PdfToImagesTool';
+import ImageEditorTool from './tools/ImageEditorTool';
+import MergePdfTool from './tools/MergePdfTool';
+import PdfOperationsTool from './tools/PdfOperationsTool';
+import AgeCalculatorTool from './tools/AgeCalculatorTool';
+import CalorieCalculatorTool from './tools/CalorieCalculatorTool';
+import ArticleGeneratorTool from './tools/ArticleGeneratorTool';
+import UniversalConverterTool from './tools/UniversalConverterTool';
 
 
 const AppLayout: React.FC = () => (
@@ -56,17 +66,22 @@ const App: React.FC = () => {
           <Route path="tools" element={<ToolHubPage />}>
             <Route index element={<PromptGeneratorTool />} />
             <Route path="prompt-generator" element={<PromptGeneratorTool />} />
+            <Route path="article-generator" element={<ArticleGeneratorTool />} />
             <Route path="image-to-prompt" element={<ImageToPromptTool />} />
             <Route path="video-script" element={<VideoScriptTool />} />
             <Route path="youtube-title-generator" element={<YoutubeTitleGeneratorTool />} />
             <Route path="youtube-description-generator" element={<YoutubeDescriptionGeneratorTool />} />
             <Route path="youtube-niche-search" element={<YoutubeNicheSearchTool />} />
             <Route path="video-generator" element={<VideoGeneratorTool />} />
+            <Route path="pdf-to-images" element={<PdfToImagesTool />} />
+            <Route path="merge-pdf" element={<MergePdfTool />} />
+            <Route path="pdf-operations" element={<PdfOperationsTool />} />
             <Route path="prompt-checker" element={<PromptCheckerTool />} />
             <Route path="ai-detector" element={<AiDetectorTool />} />
             <Route path="human-rephrase" element={<HumanRephraseTool />} />
             <Route path="image-fusion" element={<ImageFusionTool />} />
             <Route path="remove-background" element={<RemoveBgTool />} />
+            <Route path="image-editor" element={<ImageEditorTool />} />
             <Route path="photo-restore" element={<PhotoRestoreTool />} />
             <Route path="ocr" element={<OcrTool />} />
             <Route path="barcode-reader" element={<BarcodeReaderTool />} />
@@ -74,8 +89,13 @@ const App: React.FC = () => {
             <Route path="coloring-page-generator" element={<ColoringPageGeneratorTool />} />
             <Route path="pod-generator" element={<PrintOnDemandTool />} />
             <Route path="merge-photos" element={<MergePhotosTool />} />
+            <Route path="color-extractor" element={<ColorExtractorTool />} />
             <Route path="wheel-of-fortune" element={<WheelOfFortuneTool />} />
             <Route path="world-clock" element={<WorldClockTool />} />
+            <Route path="color-converter" element={<ColorConverterTool />} />
+            <Route path="age-calculator" element={<AgeCalculatorTool />} />
+            <Route path="calorie-calculator" element={<CalorieCalculatorTool />} />
+            <Route path="universal-converter" element={<UniversalConverterTool />} />
           </Route>
         </Route>
       </Routes>

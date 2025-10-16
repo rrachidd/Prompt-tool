@@ -638,3 +638,85 @@ Overall Tone: The video must be ultra high resolution, with realistic detail, pr
         throw new Error(errorMessage);
     }
 };
+
+export interface ArticleGenerationParams {
+  title: string;
+  keyword: string;
+  description: string;
+  category: string;
+  tone: string;
+  length: 'short' | 'medium' | 'long' | 'very-long';
+  intent: string;
+  audience: string;
+  additionalInfo?: string;
+}
+
+export const generateProfessionalArticle = async (params: ArticleGenerationParams): Promise<any> => {
+  if (!API_KEY) {
+    throw new Error("API Key not configured. Article generation is unavailable.");
+  }
+
+  const lengthInWords = {
+    short: '300-500 words',
+    medium: '500-800 words',
+    long: '800-1200 words',
+    'very-long': '1200+ words',
+  }[params.length] || '500-800 words';
+
+  const prompt = `Based on the following parameters, generate a comprehensive, unique, and SEO-optimized article in Arabic. The article must be well-structured with headings (h2, h3), paragraphs (p), and lists (ul/ol).
+
+Parameters:
+- Article Title: ${params.title}
+- Main Keyword: ${params.keyword}
+- Brief Description: ${params.description}
+- Category: ${params.category}
+- Tone of Voice: ${params.tone}
+- Desired Length: ${lengthInWords}
+- Search Intent: ${params.intent}
+- Target Audience: ${params.audience}
+- Additional Info: ${params.additionalInfo || 'None'}
+
+Please provide the output in a structured JSON format. The htmlContent should be a single string of well-formed HTML.
+`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-pro',
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            generatedTitle: { type: Type.STRING, description: 'The final, SEO-optimized title of the article.' },
+            htmlContent: { type: Type.STRING, description: 'The full article content as a single HTML string, including h2, h3, p, ul, ol, and li tags.' },
+            metaDescription: { type: Type.STRING, description: 'A compelling meta description between 150-160 characters.' },
+            urlSlug: { type: Type.STRING, description: 'A short, URL-friendly slug in Arabic.' },
+            suggestedKeywords: {
+              type: Type.ARRAY,
+              items: { type: Type.STRING },
+              description: 'An array of 5-7 related LSI keywords.'
+            },
+            wordCount: { type: Type.INTEGER, description: 'The total word count of the generated article.' }
+          },
+          required: ["generatedTitle", "htmlContent", "metaDescription", "urlSlug", "suggestedKeywords", "wordCount"]
+        }
+      }
+    });
+
+    const jsonText = response.text.trim();
+    const articleData = JSON.parse(jsonText);
+    
+    // Add some calculated metrics
+    const keywordRegex = new RegExp(params.keyword, 'gi');
+    const keywordMatches = (articleData.htmlContent.match(keywordRegex) || []).length;
+    articleData.keywordDensity = articleData.wordCount > 0 ? ((keywordMatches / articleData.wordCount) * 100).toFixed(2) : '0.00';
+    articleData.readingTime = Math.ceil(articleData.wordCount / 200);
+
+    return articleData;
+
+  } catch (error) {
+    const errorMessage = handleApiError(error, "generating professional article");
+    throw new Error(errorMessage);
+  }
+};

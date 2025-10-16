@@ -16,6 +16,12 @@ import { MergeIcon } from './components/icons/MergeIcon';
 import { MiscToolIcon } from './components/icons/MiscToolIcon';
 import { GlobeIcon } from './components/icons/GlobeIcon';
 import { VideoGeneratorIcon } from './components/icons/VideoGeneratorIcon';
+import { PaletteIcon } from './components/icons/PaletteIcon';
+import { PdfToolIcon } from './components/icons/PdfToolIcon';
+import { ImageEditIcon } from './components/icons/ImageEditIcon';
+import { PdfOperationsIcon } from './components/icons/PdfOperationsIcon';
+import { BmiCalculatorIcon } from './components/icons/BmiCalculatorIcon';
+import { ConverterIcon } from './components/icons/ConverterIcon';
 
 export const NAV_LINKS = [
   { name: 'الرئيسية', path: '/' },
@@ -31,6 +37,14 @@ export const TOOLS_CONFIG: Tool[] = [
     name: 'توليد أوامر النصوص',
     description: 'احصل على أوامر ذكية ومحسّنة لتحقيق أفضل النتائج من نماذج اللغة.',
     path: '/tools/prompt-generator',
+    category: ToolCategory.TEXT,
+    icon: TextToolIcon,
+  },
+  {
+    id: 'article-generator',
+    name: 'إنشاء مقالات احترافية',
+    description: 'أداة متقدمة لإنشاء مقالات فريدة ومحسّنة لمحركات البحث.',
+    path: '/tools/article-generator',
     category: ToolCategory.TEXT,
     icon: TextToolIcon,
   },
@@ -67,6 +81,14 @@ export const TOOLS_CONFIG: Tool[] = [
     icon: ImageToolIcon,
   },
   {
+    id: 'color-extractor',
+    name: 'مستخرج الألوان من الصور',
+    description: 'استخرج لوحة الألوان من أي صورة، أو اختر لونًا محددًا باستخدام منتقي الألوان.',
+    path: '/tools/color-extractor',
+    category: ToolCategory.IMAGE,
+    icon: PaletteIcon,
+  },
+  {
     id: 'image-fusion',
     name: 'دمج صورتين في أمر',
     description: 'ادمج مفاهيم صورتين مختلفتين في أمر واحد لإنتاج صور فريدة.',
@@ -89,6 +111,14 @@ export const TOOLS_CONFIG: Tool[] = [
     path: '/tools/remove-background',
     category: ToolCategory.IMAGE,
     icon: MagicWandIcon,
+  },
+  {
+    id: 'image-editor',
+    name: 'التعديل على الصور',
+    description: 'أداة سريعة وقوية لضغط وتكبير وإزالة خلفيات الصور مباشرة من متصفحك.',
+    path: '/tools/image-editor',
+    category: ToolCategory.IMAGE,
+    icon: ImageEditIcon,
   },
   {
     id: 'photo-restore',
@@ -179,6 +209,30 @@ export const TOOLS_CONFIG: Tool[] = [
     icon: VideoGeneratorIcon,
   },
   {
+    id: 'pdf-to-images',
+    name: 'تحويل pdf إلى صور',
+    description: 'حوّل صفحات ملف PDF إلى صور بصيغ مختلفة (PNG, JPEG, WebP) بسهولة.',
+    path: '/tools/pdf-to-images',
+    category: ToolCategory.PDF,
+    icon: PdfToolIcon,
+  },
+  {
+    id: 'merge-pdf',
+    name: 'دمج ملفات pdf',
+    description: 'اجمع عدة ملفات PDF في ملف واحد بسهولة وسرعة.',
+    path: '/tools/merge-pdf',
+    category: ToolCategory.PDF,
+    icon: PdfToolIcon,
+  },
+  {
+    id: 'pdf-operations',
+    name: 'عمليات على pdf',
+    description: 'مجموعة أدوات متكاملة للتعامل مع ملفات PDF: إنشاء، تحويل، ضغط، تقسيم، والمزيد.',
+    path: '/tools/pdf-operations',
+    category: ToolCategory.PDF,
+    icon: PdfOperationsIcon,
+  },
+  {
     id: 'wheel-of-fortune',
     name: 'عجلة الحظ',
     description: 'عجلة أسماء تفاعلية لاختيار فائز عشوائي من قائمة.',
@@ -193,5 +247,37 @@ export const TOOLS_CONFIG: Tool[] = [
     path: '/tools/world-clock',
     category: ToolCategory.MISC,
     icon: GlobeIcon,
+  },
+  {
+    id: 'color-converter',
+    name: 'التعرف على الألوان بالكود',
+    description: 'أداة لتحويل بين صيغ الألوان المختلفة (HEX, RGB, HSL) والتعرف على اسم اللون.',
+    path: '/tools/color-converter',
+    category: ToolCategory.MISC,
+    icon: PaletteIcon,
+  },
+  {
+    id: 'age-calculator',
+    name: 'حاسبة العمر بالميلادي و الهجري',
+    description: 'احسب عمرك بدقة بالتقويمين الميلادي والهجري واكتشف تفاصيل ممتعة عن حياتك.',
+    path: '/tools/age-calculator',
+    category: ToolCategory.MISC,
+    icon: MiscToolIcon,
+  },
+  {
+    id: 'calorie-calculator',
+    name: 'حاسبة السعرات الحرارية ومؤشر الجسم',
+    description: 'احسب احتياجك اليومي من السعرات الحرارية ومؤشر كتلة الجسم (BMI) للحفاظ على صحتك.',
+    path: '/tools/calorie-calculator',
+    category: ToolCategory.MISC,
+    icon: BmiCalculatorIcon,
+  },
+  {
+    id: 'universal-converter',
+    name: 'المحول الشامل',
+    description: 'حوّل بين مختلف وحدات القياس بسهولة وسرعة، بما في ذلك الطول، الوزن، درجة الحرارة، والعملات.',
+    path: '/tools/universal-converter',
+    category: ToolCategory.MISC,
+    icon: ConverterIcon,
   },
 ];

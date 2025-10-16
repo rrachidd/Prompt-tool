@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { TextToolIcon } from '../components/icons/TextToolIcon';
 import { ImageToolIcon } from '../components/icons/ImageToolIcon';
 import { VideoToolIcon } from '../components/icons/VideoToolIcon';
+import { TOOLS_CONFIG } from '../constants';
+import { Tool } from '../types';
 
 const HeroSection: React.FC = () => (
     <div className="bg-brand-blue py-20 sm:py-32">
@@ -72,6 +74,43 @@ const ServicesHighlight: React.FC = () => (
     </div>
 );
 
+const ToolCard: React.FC<{ tool: Tool }> = ({ tool }) => (
+  <Link to={tool.path} className="flex flex-col text-center bg-brand-blue p-6 rounded-xl shadow-lg hover:shadow-brand-cyan/20 border border-brand-mid hover:border-brand-cyan transition-all duration-300 transform hover:-translate-y-2">
+    <div className="flex-shrink-0 flex justify-center mb-4">
+      <tool.icon className="w-16 h-16 text-brand-cyan" />
+    </div>
+    <div className="flex-grow flex flex-col justify-center">
+        <h3 className="text-xl font-bold text-white mb-2">{tool.name}</h3>
+        <p className="text-brand-light text-sm flex-grow">{tool.description}</p>
+    </div>
+  </Link>
+);
+
+
+const FeaturedTools: React.FC = () => (
+    <div className="py-24 bg-brand-dark">
+        <div className="container mx-auto px-6">
+            <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-white">اكتشف جميع أدواتنا</h2>
+                <p className="text-brand-light mt-4 max-w-2xl mx-auto">أكثر من 20 أداة ذكية لتعزيز إبداعك وإنتاجيتك، كلها في مكان واحد.</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {TOOLS_CONFIG.map(tool => (
+                    <ToolCard key={tool.id} tool={tool} />
+                ))}
+            </div>
+             <div className="text-center mt-12">
+                <Link
+                    to="/tools"
+                    className="bg-brand-cyan text-brand-dark font-bold py-3 px-8 rounded-lg hover:bg-opacity-80 transition-transform transform hover:scale-105"
+                >
+                    الذهاب لمركز الأدوات
+                </Link>
+            </div>
+        </div>
+    </div>
+);
+
 const TestimonialCard: React.FC<{ quote: string; name: string; company: string; image: string; }> = ({ quote, name, company, image }) => (
     <div className="bg-brand-blue p-8 rounded-lg shadow-md border border-brand-mid flex-shrink-0 w-full sm:w-96">
         <p className="text-brand-extralight italic">"{quote}"</p>
@@ -121,6 +160,7 @@ const HomePage: React.FC = () => {
     <div>
         <HeroSection />
         <ServicesHighlight />
+        <FeaturedTools />
         <Testimonials />
         <NewsletterSignup />
     </div>

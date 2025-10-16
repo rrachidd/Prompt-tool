@@ -15,42 +15,47 @@ const Header: React.FC = () => {
   return (
     <header className="bg-brand-blue/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        {/* Nav group on the right */}
+        <div className="flex items-center gap-x-8">
+          <nav className="hidden md:flex items-center space-x-8">
+            {NAV_LINKS.map((link) => (
+              <NavLink
+                key={link.name}
+                to={link.path}
+                className={({ isActive }) =>
+                  `text-lg hover:text-brand-cyan transition-colors duration-300 ${
+                    isActive ? 'text-brand-cyan font-bold' : 'text-brand-extralight'
+                  }`
+                }
+              >
+                {link.name}
+              </NavLink>
+            ))}
+          </nav>
+          <Link
+            to="/tools"
+            className="hidden md:inline-block bg-brand-cyan text-brand-dark font-bold py-2 px-6 rounded-lg hover:bg-opacity-80 transition-transform transform hover:scale-105"
+          >
+            مركز الأدوات
+          </Link>
+          <button className="md:hidden text-white z-50" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+            {isMenuOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
+
+        {/* Logo on the left */}
         <Link to="/" className="flex items-center space-x-2 z-50">
           <Logo className="h-10 w-10 text-brand-cyan" />
           <span className="text-2xl font-bold text-white">PromptTools</span>
         </Link>
-        <nav className="hidden md:flex items-center space-x-8">
-          {NAV_LINKS.map((link) => (
-            <NavLink
-              key={link.name}
-              to={link.path}
-              className={({ isActive }) =>
-                `text-lg hover:text-brand-cyan transition-colors duration-300 ${
-                  isActive ? 'text-brand-cyan font-bold' : 'text-brand-extralight'
-                }`
-              }
-            >
-              {link.name}
-            </NavLink>
-          ))}
-        </nav>
-        <Link
-          to="/tools"
-          className="hidden md:inline-block bg-brand-cyan text-brand-dark font-bold py-2 px-6 rounded-lg hover:bg-opacity-80 transition-transform transform hover:scale-105"
-        >
-          مركز الأدوات
-        </Link>
-        <button className="md:hidden text-white z-50" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
-          {isMenuOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          )}
-        </button>
       </div>
 
       {/* Mobile Menu */}

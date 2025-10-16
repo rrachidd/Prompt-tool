@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { Logo } from './icons/Logo';
 
 const SocialIcon: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => (
-    <a href={href} target="_blank" rel="noopener noreferrer" className="text-brand-light hover:text-brand-cyan transition-colors duration-300">
+    <a href={href} target="_blank" rel="noopener noreferrer" className="text-[#FDE7FC] hover:text-brand-cyan transition-colors duration-300">
         {children}
     </a>
 );
 
 const FooterLink: React.FC<{ to: string; children: React.ReactNode }> = ({ to, children }) => (
-    <Link to={to} className="text-brand-light hover:text-brand-cyan transition-colors duration-200">
+    <Link to={to} className="text-[#FDE7FC] hover:text-brand-cyan transition-colors duration-200">
         {children}
     </Link>
 );
@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
                         <Logo className="h-10 w-10 text-brand-cyan" />
                         <h2 className="text-2xl font-bold text-white">PromptTools</h2>
                     </div>
-                    <p className="mt-4 text-brand-light max-w-md mx-auto">
+                    <p className="mt-4 text-[#FDE7FC] max-w-md mx-auto">
                         تمكين المبدعين والمطورين بأدوات ذكاء اصطناعي متقدمة لتحويل الأفكار إلى واقع ملموس.
                     </p>
                 </div>
@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
                             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 15v-5h-2v-2h2v-1.5c0-2.21 1.002-3.5 3.5-3.5 1.003 0 1.5.08 1.5.08v2h-1c-1.103 0-1.25.522-1.25 1.25V12h2.25l-.25 2h-2v5h-2z" /></svg>
                         </SocialIcon>
                     </div>
-                    <div className="border-t border-brand-mid pt-6 text-brand-light">
+                    <div className="border-t border-brand-mid pt-6 text-[#FDE7FC]">
                         <p>&copy; {new Date().getFullYear()} PromptTools. جميع الحقوق محفوظة.</p>
                     </div>
                 </div>
