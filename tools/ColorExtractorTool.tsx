@@ -146,8 +146,14 @@ const ColorExtractorTool: React.FC = () => {
 
     const generateSchemes = (baseRgb: number[]) => {
         const [r, g, b] = baseRgb;
-        // Fix: Call rgbToHslString with three number arguments instead of one string.
-        const { h, s, l } = JSON.parse(rgbToHslString(r, g, b).replace('hsl(','{"h":').replace(', ',' ,"s":').replace('%, ',',"l":').replace('%)','}'));
+        // This regex is a bit brittle, a proper parsing function would be better
+        const hslString = rgbToHslString(r, g, b);
+        const match = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/.exec(hslString);
+        if(!match) return { monochromatic: [], complementary: [], analogous: [], triadic: [] };
+
+        const h = parseInt(match[1]);
+        const s = parseInt(match[2]);
+        const l = parseInt(match[3]);
         
         const monochromatic = Array(5).fill(0).map((_, i) => hslToRgb(h, s, 15 + i * 20));
         const complementary = [baseRgb, hslToRgb((h + 180) % 360, s, l)];

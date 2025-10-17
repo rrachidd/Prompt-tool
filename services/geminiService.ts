@@ -1,5 +1,3 @@
-
-
 import { GoogleGenAI, GenerateContentResponse, Modality, Type } from "@google/genai";
 
 const API_KEY = process.env.API_KEY;
@@ -587,7 +585,7 @@ Overall Tone: The video must be ultra high resolution, with realistic detail, pr
     try {
         onProgress?.('🚀 Starting video generation...');
         let operation = await ai.models.generateVideos({
-            model: 'veo-2.0-generate-001',
+            model: 'veo-3.1-fast-generate-preview',
             prompt: prompt,
             config: {
                 numberOfVideos: 1
@@ -719,4 +717,74 @@ Please provide the output in a structured JSON format. The htmlContent should be
     const errorMessage = handleApiError(error, "generating professional article");
     throw new Error(errorMessage);
   }
+};
+
+export interface VideoTranscriptResult {
+    title: string;
+    description: string;
+    transcript: string;
+}
+
+export const transcribeYoutubeVideo = async (url: string, language: string): Promise<VideoTranscriptResult> => {
+    if (!API_KEY) {
+        return Promise.resolve({
+            title: 'عنوان فيديو تجريبي',
+            description: 'هذا وصف تجريبي لأن مفتاح API غير مهيأ.',
+            transcript: `هذا نص تجريبي مترجم إلى ${language}.`
+        });
+    }
+
+    try {
+        const languageName = new Intl.DisplayNames(['ar'], { type: 'language' }).of(language) || language;
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-pro",
+            contents: `1. Use the website youtubetranscript.com to find and extract the full transcript for the YouTube video at this URL: ${url}.
+2. From the YouTube page itself, get the original title and description of the video.
+3. Translate the entire transcript you found in step 1 into the language: "${languageName}".
+
+Respond ONLY with a JSON object containing three keys: "title", "description", and "transcript".
+- "title" should be the video's original title.
+- "description" should be the video's original description.
+- "transcript" should be the translated text.
+If a transcript cannot be found, the "transcript" value should be a message indicating that, but still return the title and description if available.`,
+            config: {
+                tools: [{ googleSearch: {} }],
+            },
+        });
+        
+        const text = response.text;
+        if (!text || typeof text !== 'string') {
+            throw new Error("لم يتمكن الذكاء الاصطناعي من توليد استجابة نصية. قد يكون هذا بسبب سياسات المحتوى أو عدم العثور على المعلومات المطلوبة.");
+        }
+
+        const jsonText = text.trim().replace(/^```json\s*/, '').replace(/```$/, '');
+        
+        if (!jsonText) {
+             throw new Error("استجابة الذكاء الاصطناعي كانت فارغة بعد التنظيف.");
+        }
+
+        const resultJson = JSON.parse(jsonText);
+
+        return {
+            title: resultJson.title || 'لم يتم العثور على عنوان',
+            description: resultJson.description || 'لم يتم العثور على وصف',
+            transcript: resultJson.transcript || 'لم يتمكن الذكاء الاصطناعي من العثور على نص للفيديو أو ترجمته.',
+        };
+
+    } catch (error) {
+        console.error("Error in transcribeYoutubeVideo:", error);
+        
+        if (error instanceof SyntaxError) { // This handles JSON.parse errors
+            const userFriendlyError = 'فشل في تحليل استجابة الذكاء الاصطناعي. قد يكون التنسيق غير صحيح. يرجى المحاولة مرة أخرى.';
+            throw new Error(userFriendlyError);
+        }
+
+        if (error instanceof Error && error.message.includes("الذكاء الاصطناعي")) {
+            throw error; // re-throw our custom error
+        }
+        
+        const userFriendlyError = 'فشل في تفريغ الفيديو. قد لا يحتوي الفيديو على نص أو ترجمة متاحة، أو قد تكون هناك مشكلة مؤقتة في الخدمة. يرجى محاولة فيديو آخر.';
+        throw new Error(userFriendlyError);
+    }
 };

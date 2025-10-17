@@ -29,7 +29,6 @@ const ArticleGeneratorTool: React.FC = () => {
         if (result && articleContentRef.current) {
             const headings = articleContentRef.current.querySelectorAll('h2');
             const newToc = Array.from(headings).map(h => {
-                // FIX: Cast element to HTMLHeadingElement to access properties like textContent and id.
                 const headingElement = h as HTMLHeadingElement;
                 const id = (headingElement.textContent || '').replace(/\s+/g, '-').toLowerCase();
                 headingElement.id = id;

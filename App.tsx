@@ -40,6 +40,8 @@ import AgeCalculatorTool from './tools/AgeCalculatorTool';
 import CalorieCalculatorTool from './tools/CalorieCalculatorTool';
 import ArticleGeneratorTool from './tools/ArticleGeneratorTool';
 import UniversalConverterTool from './tools/UniversalConverterTool';
+import VideoToTextTool from './tools/VideoToTextTool';
+import WorldWeatherTool from './tools/WorldWeatherTool';
 
 
 const AppLayout: React.FC = () => (
@@ -73,6 +75,7 @@ const App: React.FC = () => {
             <Route path="youtube-description-generator" element={<YoutubeDescriptionGeneratorTool />} />
             <Route path="youtube-niche-search" element={<YoutubeNicheSearchTool />} />
             <Route path="video-generator" element={<VideoGeneratorTool />} />
+            <Route path="video-to-text" element={<VideoToTextTool />} />
             <Route path="pdf-to-images" element={<PdfToImagesTool />} />
             <Route path="merge-pdf" element={<MergePdfTool />} />
             <Route path="pdf-operations" element={<PdfOperationsTool />} />
@@ -92,6 +95,7 @@ const App: React.FC = () => {
             <Route path="color-extractor" element={<ColorExtractorTool />} />
             <Route path="wheel-of-fortune" element={<WheelOfFortuneTool />} />
             <Route path="world-clock" element={<WorldClockTool />} />
+            <Route path="world-weather" element={<WorldWeatherTool />} />
             <Route path="color-converter" element={<ColorConverterTool />} />
             <Route path="age-calculator" element={<AgeCalculatorTool />} />
             <Route path="calorie-calculator" element={<CalorieCalculatorTool />} />

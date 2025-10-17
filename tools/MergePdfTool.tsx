@@ -70,7 +70,8 @@ const MergePdfTool: React.FC = () => {
         } catch (error: unknown) {
             console.error('Error during PDF merge:', error);
             let errorMessage = 'حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.';
-            // FIX: Added type guard for caught error to safely access its properties.
+            
+            // FIX: Use `instanceof Error` for robust type checking of the caught error.
             if (error instanceof Error) {
                 if (error.message.includes('encrypted') || error.message.includes('password')) {
                     errorMessage = '❌ خطأ: أحد الملفات محمي بكلمة مرور. هذه الأداة لا تدعم الملفات المحمية.';

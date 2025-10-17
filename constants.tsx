@@ -22,6 +22,7 @@ import { ImageEditIcon } from './components/icons/ImageEditIcon';
 import { PdfOperationsIcon } from './components/icons/PdfOperationsIcon';
 import { BmiCalculatorIcon } from './components/icons/BmiCalculatorIcon';
 import { ConverterIcon } from './components/icons/ConverterIcon';
+import { VideoToTextIcon } from './components/icons/VideoToTextIcon';
 
 export const NAV_LINKS = [
   { name: 'الرئيسية', path: '/' },
@@ -209,6 +210,14 @@ export const TOOLS_CONFIG: Tool[] = [
     icon: VideoGeneratorIcon,
   },
   {
+    id: 'video-to-text',
+    name: 'تحويل فيديو إلى نص',
+    description: 'استخرج النص الكامل من أي فيديو يوتيوب مع دعم الترجمة للغات متعددة.',
+    path: '/tools/video-to-text',
+    category: ToolCategory.VIDEO,
+    icon: VideoToTextIcon,
+  },
+  {
     id: 'pdf-to-images',
     name: 'تحويل pdf إلى صور',
     description: 'حوّل صفحات ملف PDF إلى صور بصيغ مختلفة (PNG, JPEG, WebP) بسهولة.',
@@ -245,6 +254,14 @@ export const TOOLS_CONFIG: Tool[] = [
     name: 'ساعات العالم',
     description: 'اعرض الوقت الحالي في مدن مختلفة حول العالم.',
     path: '/tools/world-clock',
+    category: ToolCategory.MISC,
+    icon: GlobeIcon,
+  },
+  {
+    id: 'world-weather',
+    name: 'الطقس في العالم',
+    description: 'احصل على معلومات الطقس الدقيقة لأي مدينة في العالم.',
+    path: '/tools/world-weather',
     category: ToolCategory.MISC,
     icon: GlobeIcon,
   },
