@@ -42,6 +42,8 @@ import ArticleGeneratorTool from './tools/ArticleGeneratorTool';
 import UniversalConverterTool from './tools/UniversalConverterTool';
 import VideoToTextTool from './tools/VideoToTextTool';
 import WorldWeatherTool from './tools/WorldWeatherTool';
+import TiktokDownloaderTool from './tools/TiktokDownloaderTool';
+import YoutubeVideoDownloaderTool from './tools/YoutubeVideoDownloaderTool';
 
 
 const AppLayout: React.FC = () => (
@@ -76,6 +78,8 @@ const App: React.FC = () => {
             <Route path="youtube-niche-search" element={<YoutubeNicheSearchTool />} />
             <Route path="video-generator" element={<VideoGeneratorTool />} />
             <Route path="video-to-text" element={<VideoToTextTool />} />
+            <Route path="tiktok-downloader" element={<TiktokDownloaderTool />} />
+            <Route path="youtube-video-downloader" element={<YoutubeVideoDownloaderTool />} />
             <Route path="pdf-to-images" element={<PdfToImagesTool />} />
             <Route path="merge-pdf" element={<MergePdfTool />} />
             <Route path="pdf-operations" element={<PdfOperationsTool />} />

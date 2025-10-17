@@ -23,6 +23,7 @@ import { PdfOperationsIcon } from './components/icons/PdfOperationsIcon';
 import { BmiCalculatorIcon } from './components/icons/BmiCalculatorIcon';
 import { ConverterIcon } from './components/icons/ConverterIcon';
 import { VideoToTextIcon } from './components/icons/VideoToTextIcon';
+import { TiktokIcon } from './components/icons/TiktokIcon';
 
 export const NAV_LINKS = [
   { name: 'الرئيسية', path: '/' },
@@ -216,6 +217,22 @@ export const TOOLS_CONFIG: Tool[] = [
     path: '/tools/video-to-text',
     category: ToolCategory.VIDEO,
     icon: VideoToTextIcon,
+  },
+  {
+    id: 'tiktok-downloader',
+    name: 'تحميل فيديو tiktok',
+    description: 'حمل فيديوهات تيك توك بدون علامة مائية.',
+    path: '/tools/tiktok-downloader',
+    category: ToolCategory.VIDEO,
+    icon: TiktokIcon,
+  },
+  {
+    id: 'youtube-video-downloader',
+    name: 'تحميل فيديو YouTube',
+    description: 'ابحث عن فيديوهات يوتيوب وقم بتحميلها بجودات مختلفة (محاكاة).',
+    path: '/tools/youtube-video-downloader',
+    category: ToolCategory.VIDEO,
+    icon: YoutubeIcon,
   },
   {
     id: 'pdf-to-images',
