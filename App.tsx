@@ -47,6 +47,8 @@ import TiktokDownloaderTool from './tools/TiktokDownloaderTool';
 import YoutubeVideoDownloaderTool from './tools/YoutubeVideoDownloaderTool';
 import StoryBookTool from './tools/StoryBookTool';
 import ImagesToPdfTool from './tools/ImagesToPdfTool';
+import MergeExcelTool from './tools/MergeExcelTool';
+import MergeExcelSheetsTool from './tools/MergeExcelSheetsTool';
 
 
 const AppLayout: React.FC = () => (
@@ -87,6 +89,8 @@ const App: React.FC = () => {
             <Route path="images-to-pdf" element={<ImagesToPdfTool />} />
             <Route path="merge-pdf" element={<MergePdfTool />} />
             <Route path="pdf-operations" element={<PdfOperationsTool />} />
+            <Route path="merge-excel" element={<MergeExcelTool />} />
+            <Route path="merge-excel-sheets" element={<MergeExcelSheetsTool />} />
             <Route path="prompt-checker" element={<PromptCheckerTool />} />
             <Route path="ai-detector" element={<AiDetectorTool />} />
             <Route path="human-rephrase" element={<HumanRephraseTool />} />

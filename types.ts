@@ -5,6 +5,7 @@ export enum ToolCategory {
   IMAGE = 'أدوات الصور',
   VIDEO = 'أدوات الفيديو',
   PDF = 'أدوات pdf',
+  EXCEL = 'أدوات Excel',
   MISC = 'أدوات مختلفة',
 }
 

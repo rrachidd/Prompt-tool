@@ -26,6 +26,7 @@ import { VideoToTextIcon } from './components/icons/VideoToTextIcon';
 import { TiktokIcon } from './components/icons/TiktokIcon';
 import { MazeIcon } from './components/icons/MazeIcon';
 import { BookIcon } from './components/icons/BookIcon';
+import { ExcelToolIcon } from './components/icons/ExcelToolIcon';
 
 export const NAV_LINKS = [
   { name: 'الرئيسية', path: '/' },
@@ -756,6 +757,56 @@ export const TOOLS_CONFIG: Tool[] = [
     ],
     faqs: [
       { question: 'هل عملياات PDF آمنة؟', answer: 'نعم، تتم جميع المعالجات على جهازك مباشرة (في المتصفح)، ولا يتم رفع أي من ملفاتك إلى خوادمنا، مما يضمن خصوصيتك الكاملة.' }
+    ],
+  },
+  {
+    id: 'merge-excel',
+    name: 'دمج ملفات Excel',
+    description: 'ادمج عدة ملفات وجداول بيانات Excel في ملف واحد بسهولة.',
+    path: '/tools/merge-excel',
+    category: ToolCategory.EXCEL,
+    icon: ExcelToolIcon,
+    heroDescription: 'ادمج عدة ملفات إكسل في ملف واحد بسهولة وسرعة.',
+    about: 'هذه الأداة تسمح لك بدمج أوراق عمل من عدة ملفات Excel (xlsx, xls) في ملف واحد جديد. يتم إضافة كل ورقة عمل من الملفات المصدر إلى الملف المدمج النهائي، مع ضمان عدم تكرار أسماء الأوراق.',
+    features: [
+      { icon: 'bi-files', text: 'ادمج أي عدد من ملفات Excel.' },
+      { icon: 'bi-journal-check', text: 'يتم الحفاظ على جميع أوراق العمل من كل ملف.' },
+      { icon: 'bi-shield-lock-fill', text: 'آمن 100%، تتم جميع العمليات في متصفحك.' },
+      { icon: 'bi-lightning-fill', text: 'سرعة عالية في المعالجة والدمج.' },
+    ],
+    howToSteps: [
+      { title: 'اختر الملفات', description: 'انقر لرفع ملفات Excel التي تريد دمجها.' },
+      { title: 'ابدأ الدمج', description: 'انقر على زر "دمج الملفات" لبدء العملية.' },
+      { title: 'حمّل الملف', description: 'سيتم تجهيز الملف المدمج للتحميل فورًا.' },
+    ],
+    faqs: [
+      { question: 'ماذا يحدث إذا كانت هناك أوراق عمل بنفس الاسم؟', answer: 'تقوم الأداة بإعادة تسمية أوراق العمل المكررة تلقائيًا بإضافة رقم (_1, _2) لضمان عدم فقدان أي بيانات.' },
+      { question: 'هل يتم الاحتفاظ بالتنسيق؟', answer: 'نعم، يتم نقل أوراق العمل كما هي مع الحفاظ على التنسيقات والبيانات.' },
+    ],
+  },
+  {
+    id: 'merge-excel-sheets',
+    name: 'دمج أوراق Excel',
+    description: 'ادمج جميع أوراق العمل من ملفات Excel متعددة في ورقة واحدة جديدة مع توحيد الأعمدة.',
+    path: '/tools/merge-excel-sheets',
+    category: ToolCategory.EXCEL,
+    icon: ExcelToolIcon,
+    heroDescription: 'أداة لدمج جميع أوراق ملفات الإكسل في ورقة واحدة بسهولة.',
+    about: 'تقوم هذه الأداة بجمع كل أوراق العمل من ملفات Excel متعددة ودمجها في ورقة واحدة فقط في ملف جديد. تقوم الأداة بإنشاء مجموعة موحدة من العناوين من جميع الأوراق وتضمن وضع بيانات كل صف تحت العمود الصحيح.',
+    features: [
+      { icon: 'bi-files', text: 'ادمج أي عدد من ملفات Excel.' },
+      { icon: 'bi-layout-text-window-reverse', text: 'توحيد تلقائي للأعمدة من جميع الأوراق.' },
+      { icon: 'bi-shield-lock-fill', text: 'آمن 100%، تتم جميع العمليات في متصفحك.' },
+      { icon: 'bi-lightning-fill', text: 'معالجة سريعة للبيانات.' },
+    ],
+    howToSteps: [
+      { title: 'اختر الملفات', description: 'انقر لرفع ملفات Excel التي تريد دمج أوراقها.' },
+      { title: 'ابدأ الدمج', description: 'انقر على زر "دمج جميع الأوراق" لبدء العملية.' },
+      { title: 'حمّل الملف', description: 'سيتم تجهيز الملف المدمج للتحميل فورًا.' },
+    ],
+    faqs: [
+      { question: 'ماذا يحدث إذا كانت الأعمدة مختلفة بين الأوراق؟', answer: 'تقوم الأداة بإنشاء مجموعة شاملة من جميع الأعمدة الموجودة في كل الأوراق. إذا لم تكن ورقة معينة تحتوي على عمود معين، فسيتم ترك الخلية فارغة في الصف المقابل.' },
+      { question: 'هل يتم الاحتفاظ بالتنسيق؟', answer: 'لا، تركز هذه الأداة على دمج البيانات فقط. يتم نقل القيم النصية والأرقام، ولكن لا يتم نقل التنسيقات مثل الألوان والخطوط.' },
     ],
   },
   {

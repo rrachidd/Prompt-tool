@@ -47,6 +47,7 @@ class MazeGenerator {
                 const newY = currentY + dy;
 
                 if (newX > 0 && newX < this.width - 1 && newY > 0 && newY < this.height - 1 && this.maze[newY][newX] === 1) {
+                    // FIX: Changed undefined variable `nextY` to `newY`.
                     neighbors.push([newX, newY, dx / 2, dy / 2]);
                 }
             }

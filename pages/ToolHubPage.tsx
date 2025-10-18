@@ -4,7 +4,7 @@ import { TOOLS_CONFIG } from '../constants';
 import { Tool, ToolCategory } from '../types';
 
 const Sidebar: React.FC = () => {
-    const categories = [ToolCategory.TEXT, ToolCategory.IMAGE, ToolCategory.VIDEO, ToolCategory.PDF, ToolCategory.MISC];
+    const categories = [ToolCategory.TEXT, ToolCategory.IMAGE, ToolCategory.VIDEO, ToolCategory.PDF, ToolCategory.EXCEL, ToolCategory.MISC];
 
     return (
         <aside className="w-full md:w-72 bg-brand-blue border-l border-brand-mid p-6 flex-shrink-0">
