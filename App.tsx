@@ -46,6 +46,7 @@ import WorldWeatherTool from './tools/WorldWeatherTool';
 import TiktokDownloaderTool from './tools/TiktokDownloaderTool';
 import YoutubeVideoDownloaderTool from './tools/YoutubeVideoDownloaderTool';
 import StoryBookTool from './tools/StoryBookTool';
+import ImagesToPdfTool from './tools/ImagesToPdfTool';
 
 
 const AppLayout: React.FC = () => (
@@ -83,6 +84,7 @@ const App: React.FC = () => {
             <Route path="tiktok-downloader" element={<TiktokDownloaderTool />} />
             <Route path="youtube-video-downloader" element={<YoutubeVideoDownloaderTool />} />
             <Route path="pdf-to-images" element={<PdfToImagesTool />} />
+            <Route path="images-to-pdf" element={<ImagesToPdfTool />} />
             <Route path="merge-pdf" element={<MergePdfTool />} />
             <Route path="pdf-operations" element={<PdfOperationsTool />} />
             <Route path="prompt-checker" element={<PromptCheckerTool />} />
