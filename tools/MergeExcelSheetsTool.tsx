@@ -19,7 +19,9 @@ const MergeExcelSheetsTool: React.FC = () => {
     const [error, setError] = useState('');
     const [isDragging, setIsDragging] = useState(false);
     const [isMultiMode, setIsMultiMode] = useState(false);
+    const [isCompactView, setIsCompactView] = useState(true);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const resultCardRef = useRef<HTMLDivElement>(null);
 
     const handleClear = useCallback(() => {
         setFiles([]);
@@ -38,7 +40,6 @@ const MergeExcelSheetsTool: React.FC = () => {
 
     const handleFileSelection = useCallback((selectedFiles: FileList | null) => {
         if (!selectedFiles || selectedFiles.length === 0) return;
-
         const fileArray = Array.from(selectedFiles);
 
         if (!isMultiMode && fileArray.length > 1) {
@@ -82,8 +83,7 @@ const MergeExcelSheetsTool: React.FC = () => {
                     reader.onload = e => {
                         try {
                             const data = new Uint8Array(e.target!.result as ArrayBuffer);
-                            const workbook = XLSX.read(data, { type: 'array', cellDates: true });
-                            resolve(workbook);
+                            resolve(XLSX.read(data, { type: 'array', cellDates: true }));
                         } catch (err) {
                             reject(new Error(`فشل قراءة الملف: ${file.name}`));
                         }
@@ -93,12 +93,14 @@ const MergeExcelSheetsTool: React.FC = () => {
                 }))
             );
 
-            // This logic is complex, so wrap in a timeout to ensure the loading spinner renders first.
+            // Defer heavy processing to allow UI update
             setTimeout(() => {
                 const allHeaders = new Set<string>();
-                workbooks.forEach(workbook => {
-                    (workbook as any).SheetNames.forEach((sheetName: string) => {
-                        const ws = (workbook as any).Sheets[sheetName];
+                let totalSheetsProcessed = 0;
+
+                workbooks.forEach((workbook: any) => {
+                    workbook.SheetNames.forEach((sheetName: string) => {
+                        const ws = workbook.Sheets[sheetName];
                         const jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 });
                         if (jsonData.length > 0 && jsonData[0]) {
                             jsonData[0].forEach(header => {
@@ -107,21 +109,19 @@ const MergeExcelSheetsTool: React.FC = () => {
                         }
                     });
                 });
-                const headersArray = Array.from(allHeaders);
-                
-                const merged: any[][] = [headersArray];
-                let totalSheetsProcessed = 0;
 
-                workbooks.forEach(workbook => {
-                    (workbook as any).SheetNames.forEach((sheetName: string) => {
+                const headersArray = Array.from(allHeaders);
+                const merged: any[][] = [headersArray];
+
+                workbooks.forEach((workbook: any) => {
+                    workbook.SheetNames.forEach((sheetName: string) => {
                         totalSheetsProcessed++;
-                        const ws = (workbook as any).Sheets[sheetName];
-                        const jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }); // raw:false for formatted dates
+                        const ws = workbook.Sheets[sheetName];
+                        const jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false });
 
                         if (jsonData.length > 1) {
                             const sheetHeaders = jsonData[0].map(h => String(h));
                             const dataRows = jsonData.slice(1);
-
                             dataRows.forEach(row => {
                                 const newRow = Array(headersArray.length).fill(undefined);
                                 sheetHeaders.forEach((header, colIndex) => {
@@ -144,6 +144,7 @@ const MergeExcelSheetsTool: React.FC = () => {
                     cols: headersArray.length,
                 });
                 setIsLoading(false);
+                setTimeout(() => resultCardRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
             }, 100);
 
         } catch (err) {
@@ -168,29 +169,6 @@ const MergeExcelSheetsTool: React.FC = () => {
         handleFileSelection(e.dataTransfer.files);
     };
 
-    const tablePreview = mergedData && mergedData.length > 1 ? (
-        <div className="max-h-96 overflow-auto border border-brand-mid rounded-lg">
-            <table className="w-full text-sm text-left text-brand-light">
-                <thead className="text-xs text-white uppercase bg-brand-dark sticky top-0">
-                    <tr>
-                        {mergedData[0].map((header, index) => (
-                            <th key={index} scope="col" className="px-6 py-3">{header || 'عمود فارغ'}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {mergedData.slice(1, 101).map((row, rowIndex) => (
-                        <tr key={rowIndex} className="bg-brand-blue border-b border-brand-mid even:bg-brand-blue/50 hover:bg-brand-mid/50">
-                            {row.map((cell, cellIndex) => (
-                                <td key={cellIndex} className="px-6 py-2 truncate max-w-xs">{cell === null || cell === undefined ? '' : String(cell)}</td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    ) : null;
-    
     return (
         <div className="space-y-6">
             <div className="bg-brand-blue p-6 rounded-lg border border-brand-mid">
@@ -204,7 +182,6 @@ const MergeExcelSheetsTool: React.FC = () => {
                     <p className="text-sm text-brand-light mt-1">يدعم .xlsx, .xls</p>
                     <input type="file" ref={fileInputRef} onChange={e => handleFileSelection(e.target.files)} accept=".xlsx, .xls" multiple={isMultiMode} className="hidden" />
                 </div>
-                
                 {files.length > 0 && (
                      <div className="mt-4">
                         <div className="flex justify-between items-center mb-2">
@@ -224,22 +201,50 @@ const MergeExcelSheetsTool: React.FC = () => {
                         </div>
                     </div>
                 )}
-                
+                <div className="mt-4 p-4 bg-brand-dark rounded-md border border-brand-mid">
+                    <div className="flex items-center">
+                        <input id="compactView" type="checkbox" checked={isCompactView} onChange={e => setIsCompactView(e.target.checked)} className="w-4 h-4 text-brand-cyan bg-gray-700 border-gray-600 rounded focus:ring-brand-cyan" />
+                        <label htmlFor="compactView" className="mr-2 text-sm font-medium text-brand-light">عرض مضغوط للبيانات</label>
+                    </div>
+                </div>
                 {error && <div className="p-3 mt-4 rounded-md border text-center font-semibold bg-red-500/20 border-red-400 text-red-300">{error}</div>}
-                
-                <div className="mt-4">
+                <div className="mt-4 flex flex-col sm:flex-row gap-4">
                     <button onClick={handleProcess} disabled={isLoading || files.length === 0} className="w-full bg-brand-cyan text-brand-dark font-bold py-3 px-6 rounded-lg hover:bg-opacity-80 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
                         {isLoading ? <><div className="animate-spin rounded-full h-5 w-5 border-b-2 border-brand-dark"></div><span>جاري المعالجة...</span></> : 'معالجة ودمج الأوراق'}
                     </button>
+                    <button onClick={handleClear} className="w-full sm:w-auto bg-yellow-500 text-black font-bold py-3 px-6 rounded-lg hover:bg-yellow-600 transition-colors">مسح الكل</button>
                 </div>
             </div>
 
+            {isLoading && !resultInfo && <div className="text-center p-10"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-cyan mx-auto"></div><p className="mt-3 text-brand-light">جاري معالجة الملفات، يرجى الانتظار...</p></div>}
+
             {resultInfo && (
-                <div className="bg-brand-blue p-6 rounded-lg border border-brand-mid animate-fade-in space-y-4">
+                <div ref={resultCardRef} className="bg-brand-blue p-6 rounded-lg border border-brand-mid animate-fade-in space-y-4">
                      <div className="p-3 rounded-md bg-green-900/50 text-green-300 text-center">
                         تم دمج <strong>{resultInfo.files}</strong> ملفات تحتوي على <strong>{resultInfo.sheets}</strong> ورقة، والنتيجة <strong>{resultInfo.rows}</strong> صف و <strong>{resultInfo.cols}</strong> عمود.
                     </div>
-                    {tablePreview}
+                    {mergedData && mergedData.length > 1 ? (
+                        <div className="max-h-96 overflow-auto border border-brand-mid rounded-lg">
+                            <table className={`w-full text-sm text-left text-brand-light ${isCompactView ? 'table-fixed' : ''}`}>
+                                <thead className="text-xs text-white uppercase bg-brand-dark sticky top-0">
+                                    <tr>
+                                        {mergedData[0].map((header, index) => (
+                                            <th key={index} scope="col" className={`px-4 ${isCompactView ? 'py-2' : 'py-3'}`}>{header || 'عمود فارغ'}</th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {mergedData.slice(1, 101).map((row, rowIndex) => (
+                                        <tr key={rowIndex} className="bg-brand-blue border-b border-brand-mid even:bg-brand-blue/50 hover:bg-brand-mid/50">
+                                            {row.map((cell, cellIndex) => (
+                                                <td key={cellIndex} className={`px-4 truncate ${isCompactView ? 'py-1' : 'py-2'}`}>{cell === null || cell === undefined ? '' : String(cell)}</td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : <p className="text-center text-brand-light">لا توجد بيانات للعرض.</p>}
                     {mergedData && mergedData.length > 101 && <p className="text-center text-sm text-brand-light">يتم عرض أول 100 صف فقط للمعاينة.</p>}
                     <div className="text-center">
                         <button onClick={handleDownload} className="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 mx-auto">
@@ -252,18 +257,12 @@ const MergeExcelSheetsTool: React.FC = () => {
              <div className="bg-brand-blue p-6 rounded-lg border border-brand-mid text-brand-light space-y-3">
                 <h5 className="font-bold text-white text-lg">كيفية الاستخدام:</h5>
                 <ol className="list-decimal list-inside space-y-1">
-                    <li>اختر وضع "ملف واحد" أو "عدة ملفات" حسب احتياجك.</li>
-                    <li>قم بتحميل ملف أو عدة ملفات إكسل بالسحب والإفلات أو بالنقر.</li>
+                    <li>اختر وضع "ملف واحد" أو "عدة ملفات".</li>
+                    <li>قم بتحميل ملف أو عدة ملفات إكسل.</li>
                     <li>انقر على زر "معالجة ودمج الأوراق".</li>
-                    <li>ستظهر معاينة للبيانات المدمجة في جدول أدناه.</li>
+                    <li>ستظهر معاينة للبيانات المدمجة في جدول.</li>
                     <li>انقر على زر "تحميل الملف المدمج" لتنزيل النتيجة.</li>
                 </ol>
-                <h6 className="font-bold text-white pt-2 border-t border-brand-mid mt-3">ملاحظات هامة:</h6>
-                <ul className="list-disc list-inside space-y-1">
-                    <li>ستقوم الأداة بتوحيد الأعمدة من جميع الأوراق. إذا لم تحتوِ ورقة ما على عمود معين، فستكون قيمته فارغة.</li>
-                    <li>يتم تجاهل التنسيقات (الألوان، الخطوط) والتركيز على دمج البيانات فقط.</li>
-                    <li>تتم جميع العمليات في متصفحك لضمان خصوصية بياناتك.</li>
-                </ul>
             </div>
         </div>
     );
