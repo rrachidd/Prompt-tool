@@ -15,4 +15,9 @@ export interface Tool {
   path: string;
   category: ToolCategory;
   icon: React.ComponentType<{ className?: string }>;
+  heroDescription?: string;
+  about?: string;
+  features?: { icon: string; text: string }[];
+  howToSteps?: { title: string; description: string }[];
+  faqs?: { question: string; answer: string }[];
 }

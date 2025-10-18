@@ -23,6 +23,7 @@ import OcrTool from './tools/OcrTool';
 import BarcodeReaderTool from './tools/BarcodeReaderTool';
 import BarcodeGeneratorTool from './tools/BarcodeGeneratorTool';
 import ColoringPageGeneratorTool from './tools/ColoringPageGeneratorTool';
+import MazeGeneratorTool from './tools/MazeGeneratorTool';
 import RemoveBgTool from './tools/RemoveBgTool';
 import PrintOnDemandTool from './tools/PrintOnDemandTool';
 import PhotoRestoreTool from './tools/PhotoRestoreTool';
@@ -44,6 +45,7 @@ import VideoToTextTool from './tools/VideoToTextTool';
 import WorldWeatherTool from './tools/WorldWeatherTool';
 import TiktokDownloaderTool from './tools/TiktokDownloaderTool';
 import YoutubeVideoDownloaderTool from './tools/YoutubeVideoDownloaderTool';
+import StoryBookTool from './tools/StoryBookTool';
 
 
 const AppLayout: React.FC = () => (
@@ -94,6 +96,7 @@ const App: React.FC = () => {
             <Route path="barcode-reader" element={<BarcodeReaderTool />} />
             <Route path="barcode-generator" element={<BarcodeGeneratorTool />} />
             <Route path="coloring-page-generator" element={<ColoringPageGeneratorTool />} />
+            <Route path="maze-generator" element={<MazeGeneratorTool />} />
             <Route path="pod-generator" element={<PrintOnDemandTool />} />
             <Route path="merge-photos" element={<MergePhotosTool />} />
             <Route path="color-extractor" element={<ColorExtractorTool />} />
@@ -103,6 +106,7 @@ const App: React.FC = () => {
             <Route path="color-converter" element={<ColorConverterTool />} />
             <Route path="age-calculator" element={<AgeCalculatorTool />} />
             <Route path="calorie-calculator" element={<CalorieCalculatorTool />} />
+            <Route path="story-book-generator" element={<StoryBookTool />} />
             <Route path="universal-converter" element={<UniversalConverterTool />} />
           </Route>
         </Route>

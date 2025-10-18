@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, GenerateContentResponse, Modality, Type } from "@google/genai";
 
 const API_KEY = process.env.API_KEY;
@@ -377,8 +378,9 @@ export const removeImageBackground = async (mimeType: string, imageBase64: strin
     const response: GenerateContentResponse = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
       contents: { parts: [imagePart, textPart] },
+      // FIX: The `responseModalities` for `gemini-2.5-flash-image` must be an array with a single `Modality.IMAGE` element.
       config: {
-          responseModalities: [Modality.IMAGE, Modality.TEXT],
+          responseModalities: [Modality.IMAGE],
       },
     });
 
@@ -474,8 +476,9 @@ export const restoreAndColorizePhoto = async (mimeType: string, imageBase64: str
     const response: GenerateContentResponse = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
       contents: { parts: [imagePart, textPart] },
+      // FIX: The `responseModalities` for `gemini-2.5-flash-image` must be an array with a single `Modality.IMAGE` element.
       config: {
-          responseModalities: [Modality.IMAGE, Modality.TEXT],
+          responseModalities: [Modality.IMAGE],
       },
     });
 
@@ -519,8 +522,9 @@ export const mergePhotos = async (
     const response: GenerateContentResponse = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
       contents: { parts: [groupImagePart, personImagePart, { text: textPrompt }] },
+      // FIX: The `responseModalities` for `gemini-2.5-flash-image` must be an array with a single `Modality.IMAGE` element.
       config: {
-          responseModalities: [Modality.IMAGE, Modality.TEXT],
+          responseModalities: [Modality.IMAGE],
       },
     });
 
